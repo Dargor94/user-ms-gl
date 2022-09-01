@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
+    id 'groovy'
 }
 
 group = 'com.gl'
@@ -31,7 +32,6 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.auth0:java-jwt:4.0.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -39,6 +39,10 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final', "org.projectlombok:lombok:1.18.20", "org.projectlombok:lombok-mapstruct-binding:0.2.0"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.spockframework:spock-core:2.2-groovy-4.0'
+    testImplementation 'org.spockframework:spock-spring:2.2-groovy-4.0'
+
+
 }
 
 dependencyManagement {
