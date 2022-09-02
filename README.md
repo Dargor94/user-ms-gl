@@ -26,3 +26,9 @@
   Por último, ejecutamos en la consola el comando <code>gradle -v</code> para verificar que haya sido correcta la instalación.
   Si todo está bien, debería aparecer algo así: <code>Gradle #</code>, siendo "#" el número de la versión.
 
+  
+## Corriendo el servicio
+  Para correr el servicio, abrimos una consola dentro del directorio donde clonamos el repositorio y ejecutamos <code>./gradlew bootRun</code>
+  Podemos entonces utilizar la colección de Postman que se encuentra en este repo bajo el directorio "/documentation/postman collection" para hacer pruebas del servicio.
+  Dado que la misma tiene tests para automatizar el seteo de variables, se recomienda crear un entorno en Postman, con una variable llamada TOKEN.
+  
