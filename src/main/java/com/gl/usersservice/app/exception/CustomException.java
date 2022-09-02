@@ -32,8 +32,6 @@ public class CustomException extends Throwable {
         CUSTOMER_ALREADY_EXISTS_ERROR(HttpStatus.CONFLICT.value(), "Customer already exists."),
         INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), "There was an internal error. Try again later"),
         CUSTOMER_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND.value(), "Customer was not found"),
-        TOKEN_VALIDATION_ERROR(HttpStatus.BAD_REQUEST.value(), "There were issues trying to validate the provided token"),
-        UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "You are not allowed to be here"),
         ;
         private final Timestamp timestamp;
         private final int code;

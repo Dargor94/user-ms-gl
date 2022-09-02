@@ -2,7 +2,7 @@ package com.gl.usersservice.app.mapper;
 
 import com.gl.usersservice.app.dto.PhoneDto;
 import com.gl.usersservice.app.dto.SignUpRequestDto;
-import com.gl.usersservice.app.dto.SignUpResponseDto;
+import com.gl.usersservice.app.dto.CustomerResponseDto;
 import com.gl.usersservice.core.entity.Customer;
 import com.gl.usersservice.core.entity.Phone;
 import org.mapstruct.IterableMapping;
@@ -34,6 +34,6 @@ public interface CustomerMapper {
     @Mapping(target = "customer", ignore = true)
     Phone toPhone(PhoneDto phone);
 
-    SignUpResponseDto toCustomerResponse(Customer customer, String token);
+    CustomerResponseDto toCustomerResponse(Customer customer, String token);
 
 }

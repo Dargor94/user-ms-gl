@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CustomerController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.gl.usersservice.app.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: CustomerController (com.gl.usersservice.app.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CustomerController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CustomerController$$EnhancerBySpringCGLIB$$f3cab74d</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.controller;
+&nbsp;
+&nbsp;import com.gl.usersservice.app.dto.CustomerResponseDto;
+&nbsp;import com.gl.usersservice.app.dto.LoginRequestDto;
+&nbsp;import com.gl.usersservice.app.dto.SignUpRequestDto;
+&nbsp;import com.gl.usersservice.app.exception.CustomException;
+&nbsp;import com.gl.usersservice.app.service.CustomerService;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.validation.annotation.Validated;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import javax.validation.Valid;
+&nbsp;
+&nbsp;@Validated
+&nbsp;@RestController
+&nbsp;@ResponseStatus
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;@RequestMapping(&quot;/v1/customer&quot;)
+&nbsp;public class CustomerController {
+&nbsp;
+&nbsp;    private final CustomerService customerService;
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/sign-up&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+&nbsp;    @ResponseStatus(value = HttpStatus.CREATED)
+&nbsp;    public CustomerResponseDto signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) throws CustomException {
+<b class="fc">&nbsp;        return customerService.signUp(signUpRequestDto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/login&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+&nbsp;    @ResponseStatus(value = HttpStatus.OK)
+&nbsp;    public CustomerResponseDto login(@Valid @RequestBody LoginRequestDto loginRequestDto) throws CustomException {
+<b class="fc">&nbsp;        return customerService.login(loginRequestDto);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-02 13:38</div>
+</div>
+</body>
+</html>

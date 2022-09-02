@@ -2,6 +2,7 @@ package com.gl.usersservice.app.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SignUpRequestDto implements Serializable {
 

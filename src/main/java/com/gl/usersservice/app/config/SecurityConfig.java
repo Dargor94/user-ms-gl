@@ -1,6 +1,5 @@
 package com.gl.usersservice.app.config;
 
-import com.gl.usersservice.app.exception.CustomException;
 import com.gl.usersservice.app.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-
-import static com.gl.usersservice.app.exception.CustomException.ExceptionDefinition.UNAUTHORIZED;
 
 
 @Configuration
@@ -29,31 +25,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .httpBasic().disable()
-                .cors()
-                .and()
-                .authorizeHttpRequests()
-                .antMatchers("/v1/customer/sign-up", "/h2/**").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .userDetailsService(customerService)
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint
-                    /*    (request, response, authException) -> {
-                            try {
-                                throw new CustomException(UNAUTHORIZED);
-                            } catch (CustomException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }*/
-                )
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement().and().exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint).and()
+                .authorizeRequests((request) -> request.antMatchers("/h2-console/**", "/v1/customer/sign-up").permitAll()
+                        .anyRequest().authenticated())
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean

@@ -11,8 +11,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -22,16 +20,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@ResponseStatus
 @ControllerAdvice
 public class DtoValidationInterceptor extends ResponseEntityExceptionHandler {
 
     @Override
-    @ResponseBody
     @ExceptionHandler(InternalException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus httpStatus, WebRequest request) {
-        return ResponseEntity.of(getErrorBody(ex.getBindingResult().getFieldErrors(), httpStatus));
+        return ResponseEntity.badRequest().body(getErrorBody(ex.getBindingResult().getFieldErrors(), httpStatus));
     }
 
     private Optional<Object> getErrorBody(List<FieldError> errors, HttpStatus httpStatus) {

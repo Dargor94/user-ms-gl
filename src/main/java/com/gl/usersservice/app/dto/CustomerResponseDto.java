@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SignUpResponseDto implements Serializable {
+public class CustomerResponseDto implements Serializable {
 
     private static final long serialVersionUID = -5621980805597019135L;
     private UUID customerId;

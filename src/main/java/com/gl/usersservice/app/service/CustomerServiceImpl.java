@@ -1,8 +1,8 @@
 package com.gl.usersservice.app.service;
 
+import com.gl.usersservice.app.dto.CustomerResponseDto;
 import com.gl.usersservice.app.dto.LoginRequestDto;
 import com.gl.usersservice.app.dto.SignUpRequestDto;
-import com.gl.usersservice.app.dto.SignUpResponseDto;
 import com.gl.usersservice.app.exception.CustomException;
 import com.gl.usersservice.app.util.SecurityUtil;
 import com.gl.usersservice.core.entity.Customer;
@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) throws CustomException {
+    public CustomerResponseDto signUp(SignUpRequestDto signUpRequestDto) throws CustomException {
 
         if (findByEmail(signUpRequestDto.getEmail()).isPresent())
             throw new CustomException(CUSTOMER_ALREADY_EXISTS_ERROR);
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public SignUpResponseDto login(LoginRequestDto loginRequestDto) throws CustomException {
+    public CustomerResponseDto login(LoginRequestDto loginRequestDto) throws CustomException {
 
         Customer customer = findByEmail(loginRequestDto.getEmail()).orElseThrow(() -> new CustomException(CUSTOMER_NOT_FOUND_ERROR));
         customer.setLastLogin(LocalDateTime.now());

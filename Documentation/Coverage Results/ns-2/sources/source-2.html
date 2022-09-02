@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TokenServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.gl.usersservice.app.service</a>
+</div>
+
+<h1>Coverage Summary for Class: TokenServiceImpl (com.gl.usersservice.app.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TokenServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.service;
+&nbsp;
+&nbsp;import com.gl.usersservice.app.mapper.TokenMapper;
+&nbsp;import com.gl.usersservice.core.entity.Token;
+&nbsp;import com.gl.usersservice.core.repository.TokenRepository;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+&nbsp;public class TokenServiceImpl implements TokenService {
+&nbsp;
+&nbsp;    private final TokenRepository tokenRepository;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean verifyIsTokenInBlackList(String identifier, String userName) {
+<b class="fc">&nbsp;        Token token = TokenMapper.TOKEN_MAPPER.toToken(identifier, userName);</b>
+<b class="fc">&nbsp;        return tokenRepository.getToken(token.getIdentifier(), token.getUserName()).isPresent();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    @Transactional
+&nbsp;    public void updateBlackListedToken(String identifier, String userName) {
+<b class="fc">&nbsp;        tokenRepository.deleteAllByUserName(userName);</b>
+<b class="fc">&nbsp;        tokenRepository.save(TokenMapper.TOKEN_MAPPER.toToken(identifier, userName));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-02 13:38</div>
+</div>
+</body>
+</html>
