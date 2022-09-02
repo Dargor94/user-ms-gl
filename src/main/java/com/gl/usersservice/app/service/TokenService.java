@@ -1,10 +1,8 @@
 package com.gl.usersservice.app.service;
 
-import com.gl.usersservice.app.exception.CustomException;
-
 public interface TokenService {
 
-    boolean verifyIsTokenInBlackList(String identifier, String userName) throws CustomException;
+    boolean verifyIsTokenInBlackList(String identifier, String userName);
 
     void updateBlackListedToken(String identifier, String userName);
 }

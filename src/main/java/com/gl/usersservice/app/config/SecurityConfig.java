@@ -1,6 +1,5 @@
 package com.gl.usersservice.app.config;
 
-import com.gl.usersservice.app.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTFilter filter;
-    private final CustomerService customerService;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Override

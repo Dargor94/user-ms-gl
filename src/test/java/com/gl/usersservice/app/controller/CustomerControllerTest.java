@@ -11,8 +11,6 @@ import com.gl.usersservice.app.exception.SecurityExceptionInterceptor;
 import com.gl.usersservice.app.service.CustomerServiceImpl;
 import com.gl.usersservice.app.service.TokenServiceImpl;
 import com.gl.usersservice.app.util.SecurityUtil;
-import com.gl.usersservice.core.repository.CustomerRepository;
-import com.gl.usersservice.core.repository.TokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

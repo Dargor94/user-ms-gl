@@ -17,7 +17,7 @@ public class CustomException extends Throwable {
         this.exceptionDefinition = exceptionDefinition;
     }
 
-    public static ErrorMessageDto buildDefaultExceptionMessageBody(Exception ex) {
+    public static ErrorMessageDto buildDefaultExceptionMessageBody() {
         return new ErrorMessageDto(ExceptionDefinition.INTERNAL_SERVER_ERROR.code,
                 ExceptionDefinition.INTERNAL_SERVER_ERROR.detail);
     }

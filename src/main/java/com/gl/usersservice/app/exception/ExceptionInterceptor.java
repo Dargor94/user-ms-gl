@@ -20,7 +20,7 @@ public class ExceptionInterceptor {
     @Order(value = 99)
     @ExceptionHandler({InternalException.class})
     private ResponseEntity<ErrorMessageDto> handleException(Exception ex) {
-        return new ResponseEntity<>(CustomException.buildDefaultExceptionMessageBody(ex), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(CustomException.buildDefaultExceptionMessageBody(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
