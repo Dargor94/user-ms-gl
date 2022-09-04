@@ -6,17 +6,17 @@
 ## Armado del proyecto en **Windows**
 ### Instalación de componentes necesarios:
   
-  ### Clonamos este repositorio:
+#### Clonamos este repositorio:
   Corremos el comando <code>git clone https://github.com/Dargor94/user-ms-gl.git</code> en la consola.
   
-  ### Descargamos e instalamos Java:
+#### Descargamos e instalamos Java:
   [JDK 1.8](https://www.oracle.com/ar/java/technologies/javase/javase8-archive-downloads.html)
   
   En este caso, usamos la versión **8u202 x64**
   Luego de instalado el jdk, ejecutamos en la consola el comando <code>java -version</code> para verificar que haya sido correcta la istalación.
   Si todo está bien, debería aparecer algo así: <code>java version #</code>, siendo "#" el número de la versión.
-  
-  ### Descargamos e instalamos Gradle:
+ 
+#### Descargamos e instalamos Gradle:
   [Gradle](https://gradle.org/releases)
   
   Creamos el directorio C:\Gradle y descomprimos allí el archivo .zip descargado de la página de gradle (enlace más arriba en este documento).
