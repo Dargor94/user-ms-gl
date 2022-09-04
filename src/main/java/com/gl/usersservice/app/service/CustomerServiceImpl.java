@@ -47,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResponseDto login(LoginRequestDto loginRequestDto) throws CustomException {
 
-        Customer customer = findByEmail(loginRequestDto.getEmail()).orElseThrow(() -> new CustomException(CUSTOMER_NOT_FOUND_ERROR));
+        Customer customer = findByEmail(loginRequestDto.getEmail()).orElseThrow(this::getCustomerNotFoundException);
         customer.setLastLogin(LocalDateTime.now());
         customerRepository.save(customer);
 
@@ -64,11 +64,16 @@ public class CustomerServiceImpl implements CustomerService {
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = findByEmail(email).orElseThrow(() -> new CustomException(CUSTOMER_NOT_FOUND_ERROR));
+        Customer customer = findByEmail(email).orElseThrow(this::getCustomerNotFoundException);
         return new org.springframework.security.core.userdetails.User(
                 email,
                 customer.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+    }
+
+
+    public CustomException getCustomerNotFoundException() {
+        return new CustomException(CUSTOMER_NOT_FOUND_ERROR);
     }
 
 }

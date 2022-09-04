@@ -42,7 +42,7 @@ public class SecurityUtil {
     public String getSubjectFromToken(String token) {
         String subject;
         try {
-            final Claims claims = this.getAllClaimsFromToken(token);
+            final Claims claims = getAllClaimsFromToken(token);
             subject = claims.getSubject();
         } catch (Exception e) {
             throw new JwtException("Token is invalid");
@@ -53,7 +53,7 @@ public class SecurityUtil {
     public String getIdFromToken(String token) {
         String id;
         try {
-            final Claims claims = this.getAllClaimsFromToken(token);
+            final Claims claims = getAllClaimsFromToken(token);
             id = claims.getId();
         } catch (Exception e) {
             throw new JwtException("Token is invalid");
@@ -98,7 +98,7 @@ public class SecurityUtil {
     private Date getExpirationDate(String token) {
         Date expireDate;
         try {
-            final Claims claims = this.getAllClaimsFromToken(token);
+            final Claims claims = getAllClaimsFromToken(token);
             expireDate = claims.getExpiration();
         } catch (Exception e) {
             expireDate = null;
