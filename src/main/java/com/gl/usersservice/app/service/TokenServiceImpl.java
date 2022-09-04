@@ -3,6 +3,7 @@ package com.gl.usersservice.app.service;
 import com.gl.usersservice.app.mapper.TokenMapper;
 import com.gl.usersservice.core.entity.Token;
 import com.gl.usersservice.core.repository.TokenRepository;
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +15,11 @@ public class TokenServiceImpl implements TokenService {
     private final TokenRepository tokenRepository;
 
     @Override
-    public boolean verifyIsTokenInBlackList(String identifier, String userName) {
+    public void verifyIsTokenInBlackList(String identifier, String userName) {
         Token token = TokenMapper.TOKEN_MAPPER.toToken(identifier, userName);
-        return tokenRepository.getToken(token.getIdentifier(), token.getUserName()).isPresent();
+        tokenRepository.getToken(token.getIdentifier(), token.getUserName()).ifPresent(token1 -> {
+            throw new JwtException("Token is invalid");
+        });
     }
 
     @Override

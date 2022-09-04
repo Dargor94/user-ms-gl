@@ -2,6 +2,7 @@ package com.gl.usersservice.app.util;
 
 import com.fasterxml.uuid.Generators;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,15 +39,15 @@ public class SecurityUtil {
         return claims;
     }
 
-    public String getUsernameFromToken(String token) {
-        String userName;
+    public String getSubjectFromToken(String token) {
+        String subject;
         try {
             final Claims claims = this.getAllClaimsFromToken(token);
-            userName = claims.getSubject();
+            subject = claims.getSubject();
         } catch (Exception e) {
-            userName = null;
+            throw new JwtException("Token is invalid");
         }
-        return userName;
+        return subject;
     }
 
     public String getIdFromToken(String token) {
@@ -55,16 +56,16 @@ public class SecurityUtil {
             final Claims claims = this.getAllClaimsFromToken(token);
             id = claims.getId();
         } catch (Exception e) {
-            id = null;
+            throw new JwtException("Token is invalid");
         }
         return id;
     }
 
-    public String generateToken(String userName) {
+    public String generateToken(String email) {
 
         return Jwts.builder()
                 .setIssuer(issuer)
-                .setSubject(userName)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setId(generateTokenId())
                 .setExpiration(generateExpirationDate())
@@ -81,10 +82,10 @@ public class SecurityUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String userName = getUsernameFromToken(token);
+        final String subject = getSubjectFromToken(token);
         return (
-                userName != null &&
-                        userName.equals(userDetails.getUsername()) &&
+                subject != null &&
+                        subject.equals(userDetails.getUsername()) &&
                         !isTokenExpired(token)
         );
     }

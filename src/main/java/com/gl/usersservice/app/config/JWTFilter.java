@@ -35,22 +35,20 @@ public class JWTFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) {
         String authToken = securityUtil.getToken(request);
-        if (!ObjectUtils.isEmpty(authToken)) {
-            String userName = securityUtil.getUsernameFromToken(authToken);
-            String tokenIdentifier = securityUtil.getIdFromToken(authToken);
-            if (!ObjectUtils.isEmpty(userName) && !ObjectUtils.isEmpty(tokenIdentifier)) {
-                if (tokenService.verifyIsTokenInBlackList(tokenIdentifier, userName))
-                    throw new JwtException("Token is invalid");
-                UserDetails userDetails = customerService.loadUserByUsername(userName);
-                if (securityUtil.validateToken(authToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    tokenService.updateBlackListedToken(tokenIdentifier, userName);
-                }
-            }
+        if (ObjectUtils.isEmpty(authToken))
+            throw new JwtException("Token is invalid");
+
+        String userName = securityUtil.getSubjectFromToken(authToken);
+        String tokenIdentifier = securityUtil.getIdFromToken(authToken);
+        tokenService.verifyIsTokenInBlackList(tokenIdentifier, userName);
+        UserDetails userDetails = customerService.loadUserByUsername(userName);
+
+        if (securityUtil.validateToken(authToken, userDetails)) {
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            tokenService.updateBlackListedToken(tokenIdentifier, userName);
         }
         filterChain.doFilter(request, response);
     }
-
 }

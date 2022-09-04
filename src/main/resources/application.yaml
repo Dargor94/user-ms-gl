@@ -33,8 +33,3 @@ spring:
         generate_statistics: true
   application:
     name: "users-service"
-#jwt_secret: "my-secret"
-#jwt_issuer: "my-company"
-#  cloud:
-#    config:
-#      uri: http://localhost:8888

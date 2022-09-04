@@ -2,6 +2,7 @@ package com.gl.usersservice.app.service;
 
 import com.gl.usersservice.core.entity.Token;
 import com.gl.usersservice.core.repository.TokenRepository;
+import io.jsonwebtoken.JwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -34,9 +36,7 @@ class TokenServiceImplTest {
         given(tokenRepository.getToken(TEST_STRING, TEST_STRING))
                 .willReturn(Optional.of(new Token()));
 
-        boolean tokenExists = tokenService.verifyIsTokenInBlackList(TEST_STRING, TEST_STRING);
-
-        assertThat(tokenExists).isNotNull().isTrue();
+        assertThrows(JwtException.class, () -> tokenService.verifyIsTokenInBlackList(TEST_STRING, TEST_STRING));
         verify(tokenRepository).getToken(TEST_STRING, TEST_STRING);
     }
 
@@ -46,12 +46,10 @@ class TokenServiceImplTest {
         given(tokenRepository.getToken(TEST_STRING, TEST_STRING))
                 .willReturn(Optional.empty());
 
-        boolean tokenExists = tokenService.verifyIsTokenInBlackList(TEST_STRING, TEST_STRING);
-
-        assertThat(tokenExists).isNotNull().isFalse();
+        assertDoesNotThrow(() -> tokenService.verifyIsTokenInBlackList(TEST_STRING, TEST_STRING));
         verify(tokenRepository).getToken(TEST_STRING, TEST_STRING);
     }
-
+    
     @Test
     @DisplayName("Token_Black_List_Update")
     void updateBlackListedToken() {

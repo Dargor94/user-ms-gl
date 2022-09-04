@@ -78,7 +78,6 @@ class CustomerServiceImplTest {
         given(customerRepository.findByEmail(TEST_STRING))
                 .willReturn(Optional.ofNullable(customer));
 
-
         assertThrows(CustomException.class, () -> customerService.signUp(signUpRequestDto));
         verify(customerRepository, never()).save(any(Customer.class));
     }

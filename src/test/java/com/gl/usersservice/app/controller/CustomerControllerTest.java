@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -41,6 +42,13 @@ public class CustomerControllerTest {
     static final String TEST_PASSWORD = "a2asfGfdfdf4";
     static final String TEST_EMAIL = "aaaaaaa@undominio.algo";
     static final int TEST_INT = 1;
+    static final String AUTHORIZATION = "Authorization";
+
+    static final String BEARER_TOKEN = "Bearer " +
+            "eyJhbGciOiJIUzI1NiJ9" +
+            ".eyJSb2xlIjoiVXNlciIsIklzc3VlciI6Im15LWNvbXBhbnkiLCJVc2VybmFtZSI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MjU0MTk4NTksImlhdCI6MTY2MjI2MTQ2MX0" +
+            ".9fkiuQJhvYNIOtzF4P8SMPoCgEWaCPuGbxHShZgjHr0";
+
     @MockBean
     CustomerServiceImpl customerService;
     @MockBean
@@ -57,6 +65,9 @@ public class CustomerControllerTest {
     SignUpRequestDto signUpRequestDto;
     LoginRequestDto loginRequestDto;
     PhoneDto phoneDto;
+    HttpHeaders loginHttpHeaders;
+    HttpHeaders signUpHttpHeaders;
+
 
     @BeforeEach
     public void setup() {
@@ -68,6 +79,7 @@ public class CustomerControllerTest {
                         SecurityExceptionInterceptor.class)
                 .addFilters(new JWTFilter(customerService, tokenService, securityUtil))
                 .build();
+
     }
 
 
@@ -77,8 +89,11 @@ public class CustomerControllerTest {
 
         setPhoneDto(TEST_INT, TEST_INT, TEST_STRING);
         setSignUpRequestDto(TEST_EMAIL, TEST_STRING, TEST_PASSWORD, phoneDto);
+        signUpHttpHeaders = new HttpHeaders();
+        signUpHttpHeaders.add(AUTHORIZATION, BEARER_TOKEN);
 
         MockHttpServletResponse response = mvc.perform(post(BASE_PATH + "/sign-up")
+                        .headers(signUpHttpHeaders)
                         .content(signUpRequestDtoJacksonTester.write(signUpRequestDto).getJson())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
@@ -92,8 +107,11 @@ public class CustomerControllerTest {
 
         setPhoneDto(TEST_INT, TEST_INT, TEST_STRING);
         setSignUpRequestDto(TEST_STRING, TEST_STRING, TEST_STRING, phoneDto);
+        signUpHttpHeaders = new HttpHeaders();
+        signUpHttpHeaders.add(AUTHORIZATION, BEARER_TOKEN);
 
         MockHttpServletResponse response = mvc.perform(post(BASE_PATH + "/sign-up")
+                        .headers(signUpHttpHeaders)
                         .content(signUpRequestDtoJacksonTester.write(signUpRequestDto).getJson())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
@@ -107,8 +125,11 @@ public class CustomerControllerTest {
     void login_Then_Success() throws Exception {
 
         setLoginRequestDto(TEST_EMAIL, TEST_PASSWORD);
+        loginHttpHeaders = new HttpHeaders();
+        loginHttpHeaders.add(AUTHORIZATION, BEARER_TOKEN);
 
         MockHttpServletResponse response = mvc.perform(post(BASE_PATH + "/login")
+                        .headers(loginHttpHeaders)
                         .content(loginRequestDtoJacksonTester.write(loginRequestDto).getJson())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
@@ -121,8 +142,11 @@ public class CustomerControllerTest {
     void login_Then_Dto_Validation_Exception() throws Exception {
 
         setLoginRequestDto("", "");
+        loginHttpHeaders = new HttpHeaders();
+        loginHttpHeaders.add(AUTHORIZATION, BEARER_TOKEN);
 
         MockHttpServletResponse response = mvc.perform(post(BASE_PATH + "/login")
+                        .headers(loginHttpHeaders)
                         .content(loginRequestDtoJacksonTester.write(loginRequestDto).getJson())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
