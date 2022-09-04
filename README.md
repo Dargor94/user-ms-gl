@@ -29,6 +29,5 @@
   
 ## Corriendo el servicio
   Para correr el servicio, abrimos una consola dentro del directorio donde clonamos el repositorio y ejecutamos <code>./gradlew bootRun</code>
-  Podemos entonces utilizar la colección de Postman que se encuentra en este repo bajo el directorio "/documentation/postman collection" para hacer pruebas del servicio.
-  Dado que la misma tiene tests para automatizar el seteo de variables, se recomienda crear un entorno en Postman, con una variable llamada TOKEN.
-  
+  Podemos entonces utilizar la colección de Postman que se encuentra en este repo bajo el directorio "/documentation/postman collection" para hacer pruebas del           servicio. Dado que la misma tiene tests para automatizar el seteo de variables, se recomienda crear un entorno en Postman, con una variable llamada TOKEN.
+  También podemos usar este [workspace](https://www.postman.com/lively-capsule-969062/workspace/0f82b00e-e09e-4e80-a6bf-95a9ddf44abc/overview) público donde están la     colección accesible desde el navegador.
