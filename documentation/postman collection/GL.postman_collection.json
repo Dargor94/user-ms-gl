@@ -38,7 +38,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"test011@test.com\",\r\n    \"name\": \"John Doe\",\r\n    \"password\": \"a2asfGfdfdf4\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": 1234567,\r\n            \"cityCode\": 10,\r\n            \"countryCode\": \"AR\"\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"name\": \"John Doe\",\r\n    \"password\": \"a2asfGfdfdf4\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": 1234567,\r\n            \"cityCode\": 10,\r\n            \"countryCode\": \"AR\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
