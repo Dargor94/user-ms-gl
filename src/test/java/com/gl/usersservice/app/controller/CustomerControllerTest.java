@@ -12,13 +12,10 @@ import com.gl.usersservice.app.service.CustomerServiceImpl;
 import com.gl.usersservice.app.service.TokenServiceImpl;
 import com.gl.usersservice.app.util.SecurityUtil;
 import com.gl.usersservice.core.entity.Customer;
-import com.gl.usersservice.core.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
@@ -31,14 +28,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import java.util.Collections;
-import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-@SpringBootTest
 @ExtendWith({SpringExtension.class})
 public class CustomerControllerTest {
 
@@ -47,24 +41,19 @@ public class CustomerControllerTest {
     static final String TEST_PASSWORD = "a2asfGfdfdf4";
     static final String TEST_EMAIL = "aaaaaaa@undominio.algo";
     static final int TEST_INT = 1;
-    static final String AUTHORIZATION = "Authorization";
+    static final String AUTHORIZATION_HEADER = "Authorization";
 
     static final String BEARER_TOKEN = "Bearer " +
-            "eyJhbGciOiJIUzI1NiJ9" +
-            ".eyJpc3MiOiJteS1jb21wYW55Iiwic3ViIjoidGVzdDFAdGVzdC5jb20iLCJpYXQiOjE2NjIzNjEyNTQsImp0aSI6IjdjNWEyMmI4LTJjZTgtMTFlZC1hYzRlLTM1NzQxZmViOGU1NCIsImV4cCI6MTY2MjM2NDg1NH0" +
-            ".7_V5xxTcL3GQi2jBkuyumIMh7C0n8G0lASMnvvXfCt0";
+            "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJteS1jb21wYW55Iiwic3ViIjoidGVzdDFAdGVzdC5jb20iLCJpYXQiOjE2NjIzODMxNjIsImp0aSI6IjdlNjk0YmQwLTJkMWItMTFlZC05MjQxLTBmZjg1ODcxNTgxZCIsImV4cCI6MTY2MjM4Njc2Mn0.vjuOvNMxSECIdU5DZxz7ffea1cjn8pDLFEVfjKgdOdg";
 
     CustomerController customerController;
-
-    @Autowired
-    CustomerRepository customerRepository;
+    @MockBean
     CustomerServiceImpl customerService;
     @MockBean
     TokenServiceImpl tokenService;
-
-    @Autowired
+    @MockBean
     ExceptionHandlerExceptionResolver resolver;
-    @Autowired
+    @MockBean
     SecurityUtil securityUtil;
 
     MockMvc mvc;
@@ -73,11 +62,11 @@ public class CustomerControllerTest {
     SignUpRequestDto signUpRequestDto;
     LoginRequestDto loginRequestDto;
     PhoneDto phoneDto;
+    Customer customer;
     HttpHeaders httpHeaders;
 
     @BeforeEach
     public void setup() {
-        customerService = new CustomerServiceImpl(customerRepository);
         customerController = new CustomerController(customerService);
         JacksonTester.initFields(this, new ObjectMapper());
         mvc = MockMvcBuilders.standaloneSetup(customerController)
@@ -127,7 +116,9 @@ public class CustomerControllerTest {
 
         setLoginRequestDto(TEST_EMAIL, TEST_PASSWORD);
         httpHeaders = new HttpHeaders();
-        httpHeaders.add(AUTHORIZATION, BEARER_TOKEN);
+        httpHeaders.add(AUTHORIZATION_HEADER, BEARER_TOKEN);
+        customer = new Customer();
+        customer.setCustomerId(UUID.randomUUID());
 
         MockHttpServletResponse response = mvc.perform(post(BASE_PATH + "/login")
                         .headers(httpHeaders)
@@ -135,9 +126,6 @@ public class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
-        when(customerRepository.findByEmail(TEST_STRING)).thenReturn(Optional.ofNullable(any(Customer.class)));
-
-        assertThat(customerService.loadUserByUsername(TEST_STRING)).isNotNull();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 
@@ -147,7 +135,7 @@ public class CustomerControllerTest {
 
         setLoginRequestDto("", "");
         httpHeaders = new HttpHeaders();
-        httpHeaders.add(AUTHORIZATION, BEARER_TOKEN);
+        httpHeaders.add(AUTHORIZATION_HEADER, BEARER_TOKEN);
 
         MockHttpServletResponse response = mvc.perform(post(BASE_PATH + "/login")
                         .headers(httpHeaders)

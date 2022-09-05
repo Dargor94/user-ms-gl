@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TokenRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.gl.usersservice.core.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: TokenRepository (com.gl.usersservice.core.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">TokenRepository$MockitoMock$HzOmsmRq</td>
+  </tr>
+  <tr>
+    <td class="name">TokenRepository$MockitoMock$HzOmsmRq$auxiliary$51rFdcPb</td>
+  </tr>
+  <tr>
+    <td class="name">TokenRepository$MockitoMock$HzOmsmRq$auxiliary$5mTCemwn</td>
+  </tr>
+  <tr>
+    <td class="name">TokenRepository$MockitoMock$HzOmsmRq$auxiliary$xJJ8qLPW</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.core.repository;
+&nbsp;
+&nbsp;import com.gl.usersservice.core.entity.Token;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Modifying;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface TokenRepository extends JpaRepository&lt;Token, Long&gt; {
+&nbsp;
+&nbsp;    @Query(value = &quot;SELECT t FROM Token t WHERE t.identifier = :#{#identifier} AND t.email = :#{#email}&quot;)
+&nbsp;    Optional&lt;Token&gt; getToken(@Param(&quot;identifier&quot;) String identifier, @Param(&quot;email&quot;) String email);
+&nbsp;
+&nbsp;    @Modifying
+&nbsp;    @Query(&quot;DELETE FROM Token t WHERE t.email = :#{#email}&quot;)
+&nbsp;    void deleteAllByUserName(@Param(&quot;email&quot;) String email);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-05 10:32</div>
+</div>
+</body>
+</html>

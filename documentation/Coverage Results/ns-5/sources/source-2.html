@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DtoValidationInterceptor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.gl.usersservice.app.exception</a>
+</div>
+
+<h1>Coverage Summary for Class: DtoValidationInterceptor (com.gl.usersservice.app.exception)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DtoValidationInterceptor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DtoValidationInterceptor$ValidationErrorDto</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (8/9)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,7%
+  </span>
+  <span class="absValue">
+    (11/12)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.exception;
+&nbsp;
+&nbsp;import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.Setter;
+&nbsp;import org.springframework.context.support.DefaultMessageSourceResolvable;
+&nbsp;import org.springframework.http.HttpHeaders;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.validation.FieldError;
+&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
+&nbsp;import org.springframework.web.bind.annotation.ControllerAdvice;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.context.request.WebRequest;
+&nbsp;import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.sql.Timestamp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@ControllerAdvice
+<b class="fc">&nbsp;public class DtoValidationInterceptor extends ResponseEntityExceptionHandler {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    @ExceptionHandler(InternalException.class)
+&nbsp;    protected ResponseEntity&lt;Object&gt; handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus httpStatus, WebRequest request) {
+<b class="fc">&nbsp;        return ResponseEntity.badRequest().body(getErrorBody(ex.getBindingResult().getFieldErrors(), httpStatus));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Optional&lt;Object&gt; getErrorBody(List&lt;FieldError&gt; errors, HttpStatus httpStatus) {
+<b class="fc">&nbsp;        return Optional.of(new ValidationErrorDto(errors, httpStatus));</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    @Setter</b>
+&nbsp;    @Getter
+&nbsp;    public static class ValidationErrorDto implements Serializable {
+&nbsp;
+&nbsp;        private static final long serialVersionUID = -1583808350123366917L;
+&nbsp;
+<b class="fc">&nbsp;        private Timestamp timestamp = new Timestamp(System.currentTimeMillis());</b>
+<b class="fc">&nbsp;        private int code;</b>
+<b class="fc">&nbsp;        private List&lt;String&gt; detail;</b>
+&nbsp;
+<b class="fc">&nbsp;        public ValidationErrorDto(List&lt;FieldError&gt; errors, HttpStatus httpStatus) {</b>
+<b class="fc">&nbsp;            this.code = httpStatus.value();</b>
+<b class="fc">&nbsp;            this.detail = getErrors(errors);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private List&lt;String&gt; getErrors(List&lt;FieldError&gt; errors) {
+<b class="fc">&nbsp;            return errors.stream().map(DefaultMessageSourceResolvable::getDefaultMessage</b>
+<b class="fc">&nbsp;            ).collect(Collectors.toList());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-05 10:32</div>
+</div>
+</body>
+</html>

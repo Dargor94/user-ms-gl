@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > TokenServiceImpl</title>
+  <title>Coverage Report > JWTFilter</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.gl.usersservice.app.service</a>
+    <a href="../index.html">com.gl.usersservice.app.config</a>
 </div>
 
-<h1>Coverage Summary for Class: TokenServiceImpl (com.gl.usersservice.app.service)</h1>
+<h1>Coverage Summary for Class: JWTFilter (com.gl.usersservice.app.config)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">TokenServiceImpl</td>
+  <td class="name">JWTFilter</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,15 +54,15 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (2/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    35,7%
   </span>
   <span class="absValue">
-    (5/5)
+    (5/14)
   </span>
 </td>
 </tr>
@@ -74,32 +74,55 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.service;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.config;
 &nbsp;
-&nbsp;import com.gl.usersservice.app.mapper.TokenMapper;
-&nbsp;import com.gl.usersservice.core.entity.Token;
-&nbsp;import com.gl.usersservice.core.repository.TokenRepository;
+&nbsp;
+&nbsp;import com.gl.usersservice.app.service.CustomerService;
+&nbsp;import com.gl.usersservice.app.service.TokenService;
+&nbsp;import com.gl.usersservice.app.util.SecurityUtil;
 &nbsp;import lombok.AllArgsConstructor;
-&nbsp;import org.springframework.stereotype.Service;
-&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;import lombok.SneakyThrows;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.context.SecurityContextHolder;
+&nbsp;import org.springframework.security.core.userdetails.UserDetails;
+&nbsp;import org.springframework.security.web.authentication.WebAuthenticationDetails;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;import org.springframework.util.ObjectUtils;
+&nbsp;import org.springframework.web.filter.OncePerRequestFilter;
 &nbsp;
-&nbsp;@Service
+&nbsp;import javax.servlet.FilterChain;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;
+&nbsp;
+&nbsp;@Component
 <b class="fc">&nbsp;@AllArgsConstructor</b>
-&nbsp;public class TokenServiceImpl implements TokenService {
+&nbsp;public class JWTFilter extends OncePerRequestFilter {
 &nbsp;
-&nbsp;    private final TokenRepository tokenRepository;
+&nbsp;    private final CustomerService customerService;
+&nbsp;    private final TokenService tokenService;
 &nbsp;
+&nbsp;    private SecurityUtil securityUtil;
+&nbsp;
+<b class="fc">&nbsp;    @SneakyThrows</b>
 &nbsp;    @Override
-&nbsp;    public boolean verifyIsTokenInBlackList(String identifier, String userName) {
-<b class="fc">&nbsp;        Token token = TokenMapper.TOKEN_MAPPER.toToken(identifier, userName);</b>
-<b class="fc">&nbsp;        return tokenRepository.getToken(token.getIdentifier(), token.getUserName()).isPresent();</b>
-&nbsp;    }
+&nbsp;    protected void doFilterInternal(HttpServletRequest request,
+&nbsp;                                    HttpServletResponse response,
+&nbsp;                                    FilterChain filterChain) {
+<b class="fc">&nbsp;        String authToken = securityUtil.getToken(request);</b>
+<b class="fc">&nbsp;        if (!ObjectUtils.isEmpty(authToken)) {</b>
+<b class="nc">&nbsp;            String email = securityUtil.getSubjectFromToken(authToken);</b>
+<b class="nc">&nbsp;            String tokenIdentifier = securityUtil.getIdFromToken(authToken);</b>
+<b class="nc">&nbsp;            UserDetails userDetails = customerService.loadUserByUsername(email);</b>
+<b class="nc">&nbsp;            securityUtil.validateToken(authToken, email, userDetails);</b>
+<b class="nc">&nbsp;            tokenService.verifyIsTokenInBlackList(tokenIdentifier, email);</b>
+<b class="nc">&nbsp;            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());</b>
+<b class="nc">&nbsp;            authentication.setDetails(new WebAuthenticationDetails(request));</b>
+<b class="nc">&nbsp;            SecurityContextHolder.getContext().setAuthentication(authentication);</b>
+<b class="nc">&nbsp;            tokenService.updateBlackListedToken(tokenIdentifier, email);</b>
 &nbsp;
-&nbsp;    @Override
-&nbsp;    @Transactional
-&nbsp;    public void updateBlackListedToken(String identifier, String userName) {
-<b class="fc">&nbsp;        tokenRepository.deleteAllByUserName(userName);</b>
-<b class="fc">&nbsp;        tokenRepository.save(TokenMapper.TOKEN_MAPPER.toToken(identifier, userName));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        filterChain.doFilter(request, response);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -125,7 +148,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-09-02 13:38</div>
+    <div style="float:right;">generated on 2022-09-05 10:32</div>
 </div>
 </body>
 </html>

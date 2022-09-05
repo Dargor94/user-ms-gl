@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SignUpRequestDto implements Serializable {
 
     private static final long serialVersionUID = 3670772354167624987L;

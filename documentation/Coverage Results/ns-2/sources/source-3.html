@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > TokenService</title>
+  <title>Coverage Report > SecurityBeans</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,17 +18,53 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">com.gl.usersservice.app.service</a>
+    <a href="../index.html">com.gl.usersservice.app.config</a>
 </div>
 
-<h1>Coverage Summary for Class: TokenService (com.gl.usersservice.app.service)</h1>
+<h1>Coverage Summary for Class: SecurityBeans (com.gl.usersservice.app.config)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
 </tr>
 <tr>
-  <td class="name">TokenService</td>
+  <td class="name">SecurityBeans</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
 </tr>
 
 </table>
@@ -38,15 +74,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.service;
+<code class="sourceCode" id="sourceCode">&nbsp;package com.gl.usersservice.app.config;
 &nbsp;
-&nbsp;import com.gl.usersservice.app.exception.CustomException;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;import org.springframework.context.annotation.Configuration;
+&nbsp;import org.springframework.context.annotation.Primary;
+&nbsp;import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 &nbsp;
-&nbsp;public interface TokenService {
+&nbsp;@Configuration
+<b class="nc">&nbsp;public class SecurityBeans {</b>
 &nbsp;
-&nbsp;    boolean verifyIsTokenInBlackList(String identifier, String userName) throws CustomException;
+&nbsp;    @Bean
+&nbsp;    @Primary
+&nbsp;    public ExceptionHandlerExceptionResolver getResolver() {
+<b class="nc">&nbsp;        return new ExceptionHandlerExceptionResolver();</b>
+&nbsp;    }
 &nbsp;
-&nbsp;    void updateBlackListedToken(String identifier, String userName);
 &nbsp;}
 </code>
 </pre>
@@ -71,7 +114,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-09-02 13:38</div>
+    <div style="float:right;">generated on 2022-09-05 10:32</div>
 </div>
 </body>
 </html>
