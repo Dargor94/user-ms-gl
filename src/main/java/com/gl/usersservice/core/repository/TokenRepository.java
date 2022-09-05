@@ -12,11 +12,11 @@ import java.util.Optional;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
-    @Query(value = "SELECT t FROM Token t WHERE t.identifier = :#{#identifier} AND t.userName = :#{#userName}")
-    Optional<Token> getToken(@Param("identifier") String identifier, @Param("userName") String userName);
+    @Query(value = "SELECT t FROM Token t WHERE t.identifier = :#{#identifier} AND t.email = :#{#email}")
+    Optional<Token> getToken(@Param("identifier") String identifier, @Param("email") String email);
 
     @Modifying
-    @Query("DELETE FROM Token t WHERE t.userName = :#{#userName}")
-    void deleteAllByUserName(@Param("userName") String userName);
+    @Query("DELETE FROM Token t WHERE t.email = :#{#email}")
+    void deleteAllByUserName(@Param("email") String email);
 
 }

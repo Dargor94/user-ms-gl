@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "dd39a4ba-4e70-452f-9d3b-3e9a0127ca11",
-		"name": "GL",
+		"_postman_id": "44870d23-aeb1-462d-b2ec-35bb0a449b33",
+		"name": "Users",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10710871"
 	},
@@ -152,13 +152,103 @@
 			"response": []
 		},
 		{
-			"name": "Invalid Password SignUp",
+			"name": "Invalid Password SignUp (No length match)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"name\": \"John Doe\",\r\n    \"password\": \"Ase11rf\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": 1234567,\r\n            \"cityCode\": 10,\r\n            \"countryCode\": \"AR\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/customer/sign-up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"customer",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Password SignUp (No upper case match)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"name\": \"John Doe\",\r\n    \"password\": \"1sdwerf3\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": 1234567,\r\n            \"cityCode\": 10,\r\n            \"countryCode\": \"AR\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/customer/sign-up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"customer",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Password SignUp Copy (No numbers match)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"name\": \"John Doe\",\r\n    \"password\": \"1sdwerfA\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": 1234567,\r\n            \"cityCode\": 10,\r\n            \"countryCode\": \"AR\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v1/customer/sign-up",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"customer",
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid Password SignUp (Neither numbers nor upper case match)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"name\": \"John Doe\",\r\n    \"password\": \"1sdwerf\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": 1234567,\r\n            \"cityCode\": 10,\r\n            \"countryCode\": \"AR\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

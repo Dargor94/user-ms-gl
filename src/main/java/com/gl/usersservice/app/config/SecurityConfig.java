@@ -24,8 +24,9 @@ public class SecurityConfig {
 
         return http.csrf().disable().exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint).and()
-                .authorizeRequests((request) -> request.antMatchers("/h2-console/**", "/v1/customer/sign-up").permitAll()
-                        .anyRequest().authenticated())
+                .authorizeRequests(request ->
+                        request.antMatchers("/h2-console/**", "/v1/customer/sign-up").permitAll())
+                .authorizeRequests(request -> request.anyRequest().authenticated())
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

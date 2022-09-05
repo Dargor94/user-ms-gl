@@ -17,7 +17,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void verifyIsTokenInBlackList(String identifier, String userName) {
         Token token = TokenMapper.TOKEN_MAPPER.toToken(identifier, userName);
-        tokenRepository.getToken(token.getIdentifier(), token.getUserName()).ifPresent(token1 -> {
+        tokenRepository.getToken(token.getIdentifier(), token.getEmail()).ifPresent(token1 -> {
             throw new JwtException("Token is invalid");
         });
     }

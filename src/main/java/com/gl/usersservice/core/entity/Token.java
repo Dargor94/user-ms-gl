@@ -21,6 +21,6 @@ public class Token implements Serializable {
     private String identifier;
 
     @Column(nullable = false)
-    private String userName;
+    private String email;
 
 }

@@ -1,6 +1,7 @@
 package com.gl.usersservice.app.util;
 
 import com.fasterxml.uuid.Generators;
+import com.gl.usersservice.app.exception.CustomException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -9,9 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+
+import static com.gl.usersservice.app.exception.CustomException.ExceptionDefinition.INVALID_TOKEN_ERROR;
 
 @Component
 public class SecurityUtil {
@@ -81,13 +85,10 @@ public class SecurityUtil {
         return new Date(new Date().getTime() + expiresIn * 1000);
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String subject = getSubjectFromToken(token);
-        return (
-                subject != null &&
-                        subject.equals(userDetails.getUsername()) &&
-                        !isTokenExpired(token)
-        );
+    public void validateToken(String token, String subject, UserDetails userDetails) throws CustomException {
+        if (!ObjectUtils.isEmpty(new Object[]{token, subject}) && subject.equals(userDetails.getUsername()) && !isTokenExpired(token))
+            throw new CustomException(INVALID_TOKEN_ERROR);
+
     }
 
     public boolean isTokenExpired(String token) {
