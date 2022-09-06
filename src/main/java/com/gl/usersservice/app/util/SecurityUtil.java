@@ -86,7 +86,7 @@ public class SecurityUtil {
     }
 
     public void validateToken(String token, String subject, UserDetails userDetails) throws CustomException {
-        if (!ObjectUtils.isEmpty(new Object[]{token, subject}) && subject.equals(userDetails.getUsername()) && !isTokenExpired(token))
+        if (ObjectUtils.isEmpty(new Object[]{token, subject}) || !subject.equals(userDetails.getUsername()) || isTokenExpired(token))
             throw new CustomException(INVALID_TOKEN_ERROR);
 
     }
