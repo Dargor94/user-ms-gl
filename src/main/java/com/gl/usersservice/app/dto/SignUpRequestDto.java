@@ -24,7 +24,7 @@ public class SignUpRequestDto implements Serializable {
     private String name;
 
     @NotEmpty(message = "Password cannot be empty")
-    @Pattern(regexp = "^(?=.{8,12}$)(([^\\d]*[\\d][^\\d]{1,2}){1,2})([^A-Z]*[A-Z][^A-Z])(?=.*[a-z]*).*$", message = "Password doesn't match the requirements")
+    @Pattern(regexp = "^(?=.{8,12}$)(?=(.*\\d){2,})(?!.*\\d{3}|(?:.*\\d){3})(?!.*[A-Z]{2}|(?:.*[A-Z]){2})[\\d{2}A-Za-z]+$", message = "Password doesn't match the requirements")
     private String password;
 
     private List<PhoneDto> phones;

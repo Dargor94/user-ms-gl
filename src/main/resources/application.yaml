@@ -4,9 +4,9 @@ server:
     include-stacktrace: never
 logging:
   level:
-    web: debug
-    sql: debug
-    root: debug
+    web: info
+    sql: info
+    root: info
 spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
